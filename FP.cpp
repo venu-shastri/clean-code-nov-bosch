@@ -1,54 +1,63 @@
+//============================================================================
+// Name        : cleancode.cpp
+// Author      : 
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
 #include <iostream>
-#include <string>
 #include <vector>
+#include <string>
+#include <functional>
+#include <sstream>
+#include <cassert>
 
 using namespace std;
 
+function<bool(const string&)> startswithPredicateGenerator(char letter){
 
-bool startsWithB(const string& str) {
-
-    return ( str.at(0) == 'B');
+    function<bool(const straing&)> startsWith= [letter](const string& item)->bool { 
+                 for (char ch : item) {
+                    if (ch == letter) {
+                        return true;
+                    }
+                }
+            return false;
+    };
 }
 
-bool startsWithC(const string& str) {
-
-    return ( str.at(0) == 'C');
-}
-
-bool startsWithR(const string& str) {
-
-    return ( str.at(0) == 'R');
-}
-
-bool endsWithB(const string& str) {
-
-    return ( str.at(str.length()-1) == 'B');
-}
-
-vector<string> fliterString(vector<string> names, bool (*predicate) (const string& str)) 
+std::vector<std::string> findStrings(const std::vector<std::string>& strings,
+		const std::function<bool(const std::string&)>& condition)
 {
-    vector<string> result_list;
-    for (auto name: names){
-        // Compare the first char of the names with the given alphabet
-        if(predicate(name)) {
-            
-                result_list.push_back(name);
-            
+    std::vector<std::string> result;
+    for (const std::string& str : strings) {
+        if (condition(str)) {
+            result.push_back(str);
         }
     }
-    return result_list;
+    return result;
+}
+
+std::string FormattedString(const std::vector<std::string>& vec) {
+    std::ostringstream oss;
+    for (const std::string& str : vec) {
+        oss << str << "\n";
+    }
+    return oss.str();
 }
 
 int main()
 {
-    vector<string> names = {"Bosch", "Bengalore", "One", "Line", "Forward"};
-    
-    vector<string> result_list = fliterString(names, &startsWithB);
-    
-    for (auto name: result_list)
-    {
-        cout << name << endl;
-    }
+    std::vector<std::string> strings = {"apple", "banana", "cherry", "date", "elderberry"};
 
+    char letter = 'a';
+    // Create a std::function that checks for the specific letter
+    std::function<bool(const std::string&)> letterCondition = startswithPredicateGenerator(letter);
+    // Find strings that contain the specified letter
+    std::vector<std::string> foundStrings = findStrings(strings, letterCondition);
+    std::cout << "Strings containing the letter '" << letter << "':" << std::endl;
+    std::cout << FormattedString(foundStrings);
     return 0;
 }
+
