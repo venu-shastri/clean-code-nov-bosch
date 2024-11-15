@@ -2,24 +2,19 @@
 #include <stdbool.h>
 #include <string.h>
 
-bool startsWithB(const char *str) {
-    if (str == NULL) {
-        return false;
-    }
-    return str[0] == 'b';
-}
+// Online C compiler to run C program online
+#include <stdio.h>
+#include <stdbool.h>
 
-bool startsWithR(const char *str) {
-    if (str == NULL) {
-        return false;
-    }
-    return str[0] == 'R';
-}
-bool startsWithA(const char *str) {
-    if (str == NULL) {
-        return false;
-    }
-    return str[0] == 'A';
+bool (*stringStartsWithAnyCharpredicateGenerator(char startsWithChar))(const char *item) {
+    
+		bool startsWith(const char  *item){
+			 if (item == NULL) {
+                    return false;
+                }
+             return item[0] == startsWithChar;
+		}
+		return startsWith;
 }
 
 bool endsWithB(const char *str) {
@@ -47,13 +42,15 @@ int main() {
     int arrayLength = sizeof(names) / sizeof(names[0]);
     char* result[arrayLength];
     int maxResults = arrayLength;
-
-    int count = fliterString(names, arrayLength, startsWithR, result, maxResults);
+    bool (*predicate)(const char *item);
+    predicate=stringStartsWithAnyCharpredicateGenerator('R');
+    int count = fliterString(names, arrayLength, predicate, result, maxResults);
 
     printf("Filtered names:\n");
     for (int i = 0; i < count; i++) {
         printf("%s\n", result[i]);
     }
+     count = fliterString(names, arrayLength, stringStartsWithAnyCharpredicateGenerator('B'), result, maxResults);
 
     return 0;
 }
