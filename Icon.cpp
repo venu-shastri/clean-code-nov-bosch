@@ -4,7 +4,7 @@ class Icon
 {
     float speed, glow, energy;
     int x, y;
-    int subtype; // spinner, slider or hopper
+    int movementType; // spinner, slider or hopper
  
     bool clockwise; // need for spinner
     bool expand; // need for spinner
@@ -23,13 +23,13 @@ class Icon
     // constructor must set subtype: client must pass value
     public Icon(unsigned value)
     {
-        subtype = value; // use enum for readability
+        movementType = value; // use enum for readability
         // and then use conditional to set associated fields
     }
     public void move()
     {
-        if (subtype == 1) { spin(); }
-        else if (subtype == 2)
+        if (movementType == 1) { spin(); }
+        else if (movementType == 2)
         {
             slide();
         }
@@ -41,8 +41,8 @@ class Icon
 // tedious subtype checking: subtype drives flair details
    public void flair()
    {
-       if (subtype == 1) { spin(); }
-       else if (subtype == 2)
+       if (movementType == 1) { spin(); }
+       else if (movementType == 2)
        {
            slide();
        }
