@@ -3,7 +3,7 @@
 class Icon
 {
     float speed, glow, energy;
-    int x, y;
+    
     int movementType; // spinner, slider or hopper
  
     bool clockwise; // need for spinner
